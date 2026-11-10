@@ -1,0 +1,24 @@
+name: RTPMenu
+version: 1.0.0
+main: me.server.rtpmenu.RTPMenu
+api-version: '1.20'
+author: Jalebi
+description: Random teleport menu and commands with fully customisable destinations.
+softdepend: [Multiverse-Core, RTPDuels]
+
+commands:
+  rtp:
+    description: Open the RTP menu or teleport to a destination
+    usage: /rtp [overworld|nether|end|reload]
+    aliases: [randomtp]
+
+permissions:
+  rtpmenu.use:
+    description: Use /rtp and the menu
+    default: true
+  rtpmenu.bypass:
+    description: Bypass the RTP cooldown
+    default: op
+  rtpmenu.reload:
+    description: Use /rtp reload
+    default: op

@@ -1,0 +1,124 @@
+# ==================================================================
+#                          RTPMenu config
+# ==================================================================
+# Use /rtp reload after editing.
+#
+# Commands:  /rtp               opens the menu
+#            /rtp overworld     /rtp nether     /rtp end
+#            /rtp <destination> works for ANY destination you add below
+#
+# Compatible with RTPDuels: RTPDuels reads destinations.overworld (world, radius, centre)
+# from this file, so duels happen in the same world as /rtp overworld.
+
+cooldown-seconds: 120
+
+# If another plugin (e.g. Multiverse world access) cancels the teleport, undo that.
+force-teleport: true
+
+# Safe-spot search: 2 tries per tick, this many tries before giving up
+max-search-attempts: 60
+
+# ------------------------------------------------------------------
+# DESTINATIONS - what each command / button teleports you to
+# ------------------------------------------------------------------
+# world:        world name (works with Multiverse worlds)
+# radius:       random X/Z within +/- this many blocks of the centre
+# center-x/z:   centre of the random area
+# mode:         SURFACE = land on top of the ground (never in water/lava/leaves)
+#               CAVE    = find a safe air pocket between min-y and max-y (for the Nether)
+# y:            -1 = automatic safe search (recommended)
+#               any other number = teleport to exactly that Y (no safety check)
+# avoid-biomes: SURFACE only - biomes whose id contains one of these words are skipped
+# permission:   optional permission needed for this destination ("" = everyone)
+# display-name: name shown in chat messages
+destinations:
+  overworld:
+    display-name: "Overworld"
+    world: "economy"
+    radius: 10000
+    center-x: 0
+    center-z: 0
+    mode: SURFACE
+    y: -1
+    avoid-biomes: [ocean, river, beach]
+    permission: ""
+  nether:
+    display-name: "Nether"
+    world: "world_nether"
+    radius: 3000
+    center-x: 0
+    center-z: 0
+    mode: CAVE
+    min-y: 32
+    max-y: 120
+    y: -1
+    permission: ""
+  end:
+    display-name: "The End"
+    world: "world_the_end"
+    radius: 100          # keep small so you land on the main island
+    center-x: 0
+    center-z: 0
+    mode: SURFACE
+    y: -1
+    permission: ""
+
+  # Example of a custom destination - then use /rtp mining or add a button for it:
+  # mining:
+  #   display-name: "Mining World"
+  #   world: "mining"
+  #   radius: 5000
+  #   mode: SURFACE
+
+# ------------------------------------------------------------------
+# MENU
+# ------------------------------------------------------------------
+# Each button picks a destination from above. Add as many buttons as you like.
+gui:
+  title: "&6&lRTP Menu"
+  rows: 3
+  filler: true
+  filler-material: GRAY_STAINED_GLASS_PANE
+  buttons:
+    overworld:
+      destination: overworld
+      slot: 11
+      material: GRASS_BLOCK
+      name: "&a&lOverworld"
+      lore:
+        - "&7Click to random teleport"
+        - "&7in the Overworld"
+    nether:
+      destination: nether
+      slot: 13
+      material: NETHERRACK
+      name: "&c&lNether"
+      lore:
+        - "&7Click to random teleport"
+        - "&7in the Nether"
+    end:
+      destination: end
+      slot: 15
+      material: END_STONE
+      name: "&5&lThe End"
+      lore:
+        - "&7Click to random teleport"
+        - "&7in the End"
+
+# ------------------------------------------------------------------
+# MESSAGES  (& colour codes and &#rrggbb hex colours work; empty = no message)
+# Placeholders: {time} {destination} {world}
+# ------------------------------------------------------------------
+messages:
+  teleported: "&aTeleported to the &e{destination}&a!"
+  searching: "&7Searching for a safe spot..."
+  failed: "&cCouldn't find a safe spot. Try again."
+  cooldown: "&cYou must wait &e{time} &cbefore using RTP again."
+  no-permission: "&cYou don't have permission."
+  players-only: "Only players can use this command."
+  reloaded: "&aRTPMenu config reloaded."
+  unknown-destination: "&cUnknown destination: &e{destination}"
+  world-missing: "&cThe world '{world}' is not loaded."
+  already-searching: "&cYou are already searching for a spot."
+  in-duel: "&cYou can't use RTP during a duel."
+  teleport-failed: "&cThe teleport was cancelled by another plugin."
